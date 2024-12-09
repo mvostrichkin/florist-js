@@ -77,5 +77,6 @@ export function getLastUpdated() {
 }
 
 export function getArrayOfItems() {
-  return jmespath.search(JSON.parse(fs.readFileSync('data.json')), 'items[?salon_name == \'Флорариум\'].name | sort(@)');
+  return jmespath.search(JSON.parse(fs.readFileSync('data.json')), `items[?salon_name == 'Флорариум'].[id,name,prices.*.[name,price.RUB,composition[*].[name,count]]]`);
+  //data[?salon_name == 'Флорариум'].[id,name,prices.*.[name,price.RUB,composition[*].[name,count]]]
 }
