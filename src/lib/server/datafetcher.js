@@ -60,15 +60,20 @@ export async function writeDatatoFile() {
 
   if (result) {
     console.log(result.length);
-    fs.writeFile('data.json', JSON.stringify({items: result, date: Date.now()}), err => {
+    fs.writeFile('data.json', JSON.stringify({items: result}), err => {
       if (err) {
         console.error(err);
         return false;
       } else {
+        fs.writeFileSync('lastupdated', Date.now().toString());
         return true;
       }
     });
   }
+}
+
+export function getLastUpdated() {
+  return new Date(Number(fs.readFileSync('lastupdated'))).toLocaleString();
 }
 
 export function getArrayOfItems() {
