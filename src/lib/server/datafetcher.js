@@ -73,7 +73,7 @@ export async function writeDatatoFile() {
 }
 
 export function getLastUpdated() {
-  return new Date(Number(fs.readFileSync('lastupdated'))).toLocaleString();
+  return new Date(Number(fs.readFileSync('lastupdated'))).toLocaleString('ru-RU', { timeZone: '+03:00' });
 }
 
 export function getArrayOfItems() {
