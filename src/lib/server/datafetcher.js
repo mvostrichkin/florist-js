@@ -1,4 +1,6 @@
 import * as fs from 'node:fs';
+import * as jmespath from 'jmespath';
+import { json } from '@sveltejs/kit';
 const token = '0527ed28f0493367d8e4448231a8e209';
 const limit = 60;
 const pages = 5;
@@ -53,12 +55,12 @@ async function getAllData() {
 }
 
 // returns boolean result
-async function writeDatatoFile() {
+export async function writeDatatoFile() {
   let result = await getAllData();
 
   if (result) {
     console.log(result.length);
-    fs.writeFile('data.json', JSON.stringify({items: result}), err => {
+    fs.writeFile('data.json', JSON.stringify({items: result, date: Date.now()}), err => {
       if (err) {
         console.error(err);
         return false;
@@ -67,4 +69,8 @@ async function writeDatatoFile() {
       }
     });
   }
+}
+
+export function getArrayOfItems() {
+  return jmespath.search(JSON.parse(fs.readFileSync('data.json')), 'items[?salon_name == \'Флорариум\'].name | sort(@)');
 }

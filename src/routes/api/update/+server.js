@@ -1,5 +1,7 @@
-import { error } from '@sveltejs/kit';
+import * as datafetcher from '$lib/server/datafetcher.js';
 
-export const GET = ({ url }) => {
-	return new Response(String('Everything is fine'));
+export const GET = async ({ url }) => {
+  await datafetcher.writeDatatoFile();
+	
+	return new Response(String('ok'));
 };
