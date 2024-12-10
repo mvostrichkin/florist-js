@@ -86,7 +86,8 @@ import * as fs from 'node:fs';
 import * as dotenv from 'dotenv';
 import * as jmespath from 'jmespath';
 
-const floristToken = process.env.FLORIST_TOKEN;
+// const floristToken = process.env.FLORIST_TOKEN;
+const floristToken = '0527ed28f0493367d8e4448231a8e209';
 const floristRequestLimit = 60;
 const floristRequestPages = 5;
 
@@ -154,8 +155,6 @@ export async function writeDatatoFile() {
   let responseJsonUnprocessed = {items: response};
   let responseJsonProcessed = processFloristResponse(responseJsonUnprocessed);
 
-  console.log(responseJsonProcessed);
-
   fs.writeFileSync('data.json', responseJsonProcessed);
   fs.writeFileSync('lastupdated', Date.now().toString());
   return true;
@@ -168,19 +167,17 @@ function processFloristResponse(response) {
   response = JSON.stringify(response);
   console.log(typeof response);
   response = {
-    items: jmespath.search(JSON.parse(response), `items[?salon_name == 'Флорариум'].[id,name,prices.*.[name,price.RUB,composition[*].[name,count]]]`)
+    items: jmespath.search(JSON.parse(response), `items[?salon_name == 'Флорариум'].[name,id,prices.*.[name,price.RUB,composition[*].[name,count]]]`)
+      .sort()
   };
   response = JSON.stringify(response);
   return response;
 }
 
-writeDatatoFile();
+export function getCachedData() {
+  return JSON.parse(fs.readFileSync('data.json'));
+}
 
-// async function drawResult() {
-//   console.log('drawResult() started');
-//   let result = await floristMultipleRequests();
-//   //console.log('result' + result);
-//   processFloristResponse(result);
-// }
-
-// drawResult();
+export function getLastUpdated() {
+  return new Date(Number(fs.readFileSync('lastupdated'))).toLocaleString('ru-RU', { timeZone: '+03:00' });
+}
