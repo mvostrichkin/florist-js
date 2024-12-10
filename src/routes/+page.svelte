@@ -8,7 +8,7 @@
     background: linear-gradient(180deg, #e76fd2, #8e00db);
     border-radius: 16px;
     border: solid 1px #542065;
-    box-shadow: 4px 8px 24px 0 #75349f;
+    box-shadow: 4px 8px 24px 0 #906ea5;
     padding: 8px;
     margin: 8px 0 8px 0;
     display: inline-block;">Обновить</b></a>
