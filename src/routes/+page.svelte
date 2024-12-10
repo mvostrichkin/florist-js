@@ -1,9 +1,10 @@
 <script>
   let { data } = $props();
+  let dataLength = data.items.length;
 </script>
 
 <div style="margin:16px;">
-<h1>Обновлено: { data.lastUpdated }</h1> <a href="/api/update" style=""><b style="color: white;
+	<h1>Обновлено: <span class="font-bold">{ data.lastUpdated }</span></h1><h2>Позиций: <span class="font-bold">{dataLength}</span></h2> <a href="/api/update" style=""><b style="color: white;
     background: linear-gradient(180deg, #e76fd2, #8e00db);
     border-radius: 16px;
     border: solid 1px #542065;
