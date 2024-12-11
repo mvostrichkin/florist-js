@@ -13,10 +13,12 @@
 		"@sveltejs/kit": "^2.9.0",
 		"@sveltejs/vite-plugin-svelte": "^5.0.0",
 		"autoprefixer": "^10.4.20",
+		"dotenv": "^16.4.7",
+		"flowbite": "^2.5.2",
+		"flowbite-svelte": "^0.47.4",
 		"svelte": "^5.0.0",
 		"tailwindcss": "^3.4.9",
-		"vite": "^6.0.0",
-		"dotenv": "^16.4.7"
+		"vite": "^6.0.0"
 	},
 	"dependencies": {
 		"jmespath": "^0.16.0"
