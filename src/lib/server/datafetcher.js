@@ -95,20 +95,20 @@ function getCompositionsFromProcessedResponse(processedString) {
     });
   });
 
-  // resultArray.sort((a, b) => {
-  //   const nameA = a[1].toUpperCase();
-  //   const nameB = b[1].toUpperCase();
+  resultArray.sort((a, b) => {
+    const nameA = a[1].toUpperCase();
+    const nameB = b[1].toUpperCase();
 
-  //   if (nameA < nameB) {
-  //     return -1;
-  //   }
-  //   if (nameA > nameB) {
-  //     return 1;
-  //   }
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
   
-  //   // names must be equal
-  //   return 0;
-  // });
+    // names must be equal
+    return 0;
+  });
 
   resultArray.forEach(flowerArr => {
     tmpObj[flowerArr[1]] = flowerArr[0];
