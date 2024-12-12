@@ -1,6 +1,8 @@
 node_modules
 data.json
+compositions.json
 lastupdated
+bouquetsQty
 
 # Output
 .output

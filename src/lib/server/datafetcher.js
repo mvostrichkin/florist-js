@@ -154,12 +154,58 @@ export async function writeDatatoFile() {
 
   let responseJsonUnprocessed = {items: response};
   let responseJsonProcessed = processFloristResponse(responseJsonUnprocessed);
+  let compositionsJson = getCompositionsFromProcessedResponse(responseJsonProcessed);
 
-  fs.writeFileSync('data.json', responseJsonProcessed);
+  fs.writeFileSync('data.json', JSON.stringify(responseJsonProcessed));
+  fs.writeFileSync('compositions.json', JSON.stringify(compositionsJson));
   fs.writeFileSync('lastupdated', Date.now().toString());
+  fs.writeFileSync('bouquetsQty', responseJsonProcessed.items.length.toString());
   return true;
 }
 
+// returns object
+function getCompositionsFromProcessedResponse(processedString) {
+  let resultArray = [];
+  let tmpObj = {};
+  let resultObj = {
+    compositions: []
+  };
+
+  processedString.items.forEach(bouquet => {
+    bouquet[2].forEach(variant => {
+      variant[2].forEach(flower => {
+        resultArray.push([flower[2], flower[0]]);
+      });
+    });
+  });
+
+  resultArray.sort((a, b) => {
+    const nameA = a[1].toUpperCase();
+    const nameB = b[1].toUpperCase();
+
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+  
+    // names must be equal
+    return 0;
+  });
+
+  resultArray.forEach(flowerArr => {
+    tmpObj[flowerArr[1]] = flowerArr[0];
+  });
+
+  for (let flower in tmpObj) {
+    resultObj.compositions.push([tmpObj[flower], flower]);
+  }
+
+  return resultObj;
+}
+
+// returns JSON
 function processFloristResponse(response) {
   console.log('RESPONSE');
   console.log(typeof response);
@@ -167,10 +213,9 @@ function processFloristResponse(response) {
   response = JSON.stringify(response);
   console.log(typeof response);
   response = {
-    items: jmespath.search(JSON.parse(response), `items[?salon_name == 'Флорариум'].[name,id,prices.*.[name,price.RUB,composition[*].[name,count]]]`)
+    items: jmespath.search(JSON.parse(response), `items[?salon_name == 'Флорариум'].[name,id,prices.*.[name,price.RUB,composition[*].[name,count,id]]]`)
       .sort()
   };
-  response = JSON.stringify(response);
   return response;
 }
 
@@ -181,3 +226,32 @@ export function getCachedData() {
 export function getLastUpdated() {
   return new Date(Number(fs.readFileSync('lastupdated'))).toLocaleString('ru-RU', { timeZone: '+03:00' });
 }
+
+export function getCompositions() {
+  return JSON.parse(fs.readFileSync('compositions.json'));
+}
+
+export function getBouquetsQty() {
+  return fs.readFileSync('bouquetsQty');
+}
+
+export function getBouquetsWithFlower(withFlower) {
+  let initialObj = getCachedData();
+
+  // console.log(withFlower);
+  initialObj.items = initialObj.items.filter(bouquet => {
+    for (let variant of bouquet[2]) {
+      for (let flower of variant[2]) {
+        if (flower[2] == withFlower) {
+          initialObj.flowerName = flower[0];
+          return true;
+        }
+      }
+    }
+    return false;
+  });
+  console.log(initialObj);
+  return initialObj;
+}
+
+getBouquetsWithFlower();

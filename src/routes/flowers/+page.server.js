@@ -2,11 +2,9 @@ import * as datafetcher from '$lib/server/datafetcher.js';
 
 export const load = async ({ params }) => {
 	let result = {};
-	result.bouquets = datafetcher.getCachedData();
 	result.lastUpdated = datafetcher.getLastUpdated();
-	result.bouquetsQty = datafetcher.getBouquetsQty();
 	result.compositions = datafetcher.getCompositions().compositions;
-	console.log(result);
+  result.bouquetsQty = datafetcher.getBouquetsQty();
 
 	return result;
 };
