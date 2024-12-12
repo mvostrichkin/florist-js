@@ -6,6 +6,38 @@ import * as jmespath from 'jmespath';
 const floristToken = '0527ed28f0493367d8e4448231a8e209';
 const floristRequestLimit = 60;
 const floristRequestPages = 5;
+const stopWords = [
+  'БЕЧЕВКА',
+  'БУМАГА ЖАТАЯ',
+  'БУМАГА ТИШЬЮ',
+  'БУМАГА УПАКОВОЧНАЯ',
+  'КАРТОННАЯ КОРОБКА (РОЗОВАЯ)',
+  'КАШПО ДЕРЕВЯННОЕ, ЕЛЬ',
+  'КАШПО ДЕРЕВЯННОЕ, ЗВЕЗДА',
+  'КАШПО ДЕРЕВЯННОЕ, САНИ',
+  'КАШПО ИЗ КОРЫ, СТАНДАРТ',
+  'КОРЗИНА XXL',
+  'КОРЗИНА СВЕТЛАЯ БОЛЬШАЯ',
+  'КОРЗИНА СВЕТЛАЯ МАЛАЯ',
+  'КОРЗИНА СВЕТЛАЯ СРЕДНЯЯ',
+  'КОРЗИНА ТЕМНАЯ БОЛЬШАЯ',
+  'КОРЗИНА ТЕМНАЯ МАЛАЯ',
+  'КОРОБКА "СЕРДЦЕ" СТАНДАРТНАЯ',
+  'КОРОБКА С ПРИНТОМ (ДЕЛЮКС)',
+  'КОРОБКА ШЛЯПНАЯ БОЛЬШАЯ',
+  'КОРОБКА ШЛЯПНАЯ МАЛАЯ',
+  'КОРОБКА ШЛЯПНАЯ СРЕДНЯЯ',
+  'ЛЕНТА',
+  'ЛЕНТА ЗОЛОТАЯ',
+  'ЛЕНТА СЕРЕБРЯНАЯ',
+  'НОБИЛИС',
+  'ОАЗИС',
+  'ПИСТАШ',
+  'ПЛЕНКА ЦВЕТНАЯ',
+  'ФЕТР',
+  'ЭВКАЛИПТ',
+  'ЯЩИК ДЕРЕВЯННЫЙ'
+];
 
 async function floristSingleRequest(offset) {
   let url = `https://www.florist.ru/api/bouquet/list?_token=${floristToken}&nocache=0&showPrices=1&showGroups=0&showComposition=1&showHidden=0&showNotVisible=0&city=10&limit=${floristRequestLimit}&offset=${offset}&includePS=0&canDeliverFloristBouquets=1&includeMeta=1&url=/moscow&doctype=catalog&locale=RU`;
@@ -133,30 +165,48 @@ function processFloristResponse(response) {
       .sort()
   };
 
+  response = sortFlowers(response);
   return response;
 }
 
-// function sortFlowers(data) {
-//   data.items.forEach(bouquet => {
-//     bouquet[2].forEach(variant => {
-//       variant[2].sort((a, b) => {
-//         const nameA = a[0].toUpperCase();
-//         const nameB = b[0].toUpperCase();
-    
-//         if (nameA < nameB) {
-//           return -1;
-//         }
-//         if (nameA > nameB) {
-//           return 1;
-//         }
+function sortFlowers(data) {
+  data.items.forEach(bouquet => {
+    bouquet[2].forEach(variant => {
+      variant[2].sort((a, b) => {
+        const nameA = a[0].toUpperCase();
+        const nameB = b[0].toUpperCase();
+
+        console.log(`Comparing ${nameA} with ${nameB}`);
+        
+        let stopsResult = 0;
+
+        if (stopWords.includes(nameA)) {
+          stopsResult++;
+        }
+
+        if (stopWords.includes(nameB)) {
+          stopsResult--;
+        }
+
+        if (stopsResult !== 0) {
+          return stopsResult;
+        } 
+
+        if (nameA < nameB) {
+          return -1;
+        }
+        
+        if (nameA > nameB) {
+          return 1;
+        }
       
-//         // names must be equal
-//         return 0;
-//       });
-//     });
-//   });
-//   return data;
-// }
+        // names must be equal
+        return 0;
+      });
+    });
+  });
+  return data;
+}
 
 export function getCachedData() {
   return JSON.parse(fs.readFileSync('data.json'));

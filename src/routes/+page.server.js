@@ -6,7 +6,6 @@ export const load = async ({ params }) => {
 	result.lastUpdated = datafetcher.getLastUpdated();
 	result.bouquetsQty = datafetcher.getBouquetsQty();
 	result.compositions = datafetcher.getCompositions().compositions;
-	console.log(result);
 
 	return result;
 };
