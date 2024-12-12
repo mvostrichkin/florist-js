@@ -4,5 +4,5 @@ import { redirect } from '@sveltejs/kit';
 export const GET = async ({ url }) => {
   await datafetcher.writeDatatoFile();
 	
-	redirect(308, '/');
+	redirect(303, '/');
 };
