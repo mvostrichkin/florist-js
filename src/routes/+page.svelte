@@ -14,7 +14,7 @@
     padding: 8px;
     margin: 8px 0 8px 0;
     display: inline-block;">🔄 Обновить</b></a><a href="/flowers" class="font-bold" style="border-radius:16px;border:solid 1px #8e00db;padding: 8px;color: #8e00db;margin-left:16px">🔍 Поиск по составу</a>
-  <div class="font-sans">
+  <div class="font-sans mt-3">
     {#each data.bouquets.items as item}
       <Bouquet bouquetData={{item:item}}></Bouquet>
     {/each}

@@ -95,20 +95,20 @@ function getCompositionsFromProcessedResponse(processedString) {
     });
   });
 
-  resultArray.sort((a, b) => {
-    const nameA = a[1].toUpperCase();
-    const nameB = b[1].toUpperCase();
+  // resultArray.sort((a, b) => {
+  //   const nameA = a[1].toUpperCase();
+  //   const nameB = b[1].toUpperCase();
 
-    if (nameA < nameB) {
-      return -1;
-    }
-    if (nameA > nameB) {
-      return 1;
-    }
+  //   if (nameA < nameB) {
+  //     return -1;
+  //   }
+  //   if (nameA > nameB) {
+  //     return 1;
+  //   }
   
-    // names must be equal
-    return 0;
-  });
+  //   // names must be equal
+  //   return 0;
+  // });
 
   resultArray.forEach(flowerArr => {
     tmpObj[flowerArr[1]] = flowerArr[0];
@@ -121,7 +121,7 @@ function getCompositionsFromProcessedResponse(processedString) {
   return resultObj;
 }
 
-// returns JSON
+// returns object
 function processFloristResponse(response) {
   // console.log('RESPONSE');
   // console.log(typeof response);
@@ -132,7 +132,31 @@ function processFloristResponse(response) {
     items: jmespath.search(JSON.parse(response), `items[?salon_name == 'Флорариум'].[name,id,prices.*.[name,price.RUB,composition[*].[name,count,id]]]`)
       .sort()
   };
+
+  response = sortFlowers(response);
   return response;
+}
+
+function sortFlowers(data) {
+  data.items.forEach(bouquet => {
+    bouquet[2].forEach(variant => {
+      variant[2].sort((a, b) => {
+        const nameA = a[0].toUpperCase();
+        const nameB = b[0].toUpperCase();
+    
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+      
+        // names must be equal
+        return 0;
+      });
+    });
+  });
+  return data;
 }
 
 export function getCachedData() {

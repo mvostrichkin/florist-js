@@ -13,7 +13,7 @@
       padding: 8px;
       margin: 8px 0 8px 0;
       display: inline-block;">🔄 Обновить</b></a><a href="/flowers" class="font-bold" style="border-radius:16px;border:solid 1px #8e00db;padding: 8px;color: #8e00db;margin-left:16px">🔍 Поиск по составу</a>
-    <h1 class="text-3xl font-medium">{data.bouquets.flowerName}</h1><h2 class="text-xl">Позиций: {dataLength}</h2><br>
+    <h1 class="text-3xl font-medium mt-3">{data.bouquets.flowerName}</h1><h2 class="text-xl">Позиций: {dataLength}</h2><br>
     <div class="font-sans">
       {#each data.bouquets.items as item}
         <Bouquet bouquetData={{item: item, id: data.bouquets.flowerID}}></Bouquet>

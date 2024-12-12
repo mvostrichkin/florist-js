@@ -22,7 +22,7 @@
 </script>
 
 <div>
-  <h2 class="text-5xl font-bold">{compositions[0][1].charAt(0)}</h2>
+  <h2 class="text-5xl font-bold mt-3">{compositions[0][1].charAt(0)}</h2>
   {#each compositions as flower}
     {#if (checkIfSpaceNeeded(flower[1]))}
       <br>
