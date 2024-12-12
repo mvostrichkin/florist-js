@@ -133,31 +133,30 @@ function processFloristResponse(response) {
       .sort()
   };
 
-  response = sortFlowers(response);
   return response;
 }
 
-function sortFlowers(data) {
-  data.items.forEach(bouquet => {
-    bouquet[2].forEach(variant => {
-      variant[2].sort((a, b) => {
-        const nameA = a[0].toUpperCase();
-        const nameB = b[0].toUpperCase();
+// function sortFlowers(data) {
+//   data.items.forEach(bouquet => {
+//     bouquet[2].forEach(variant => {
+//       variant[2].sort((a, b) => {
+//         const nameA = a[0].toUpperCase();
+//         const nameB = b[0].toUpperCase();
     
-        if (nameA < nameB) {
-          return -1;
-        }
-        if (nameA > nameB) {
-          return 1;
-        }
+//         if (nameA < nameB) {
+//           return -1;
+//         }
+//         if (nameA > nameB) {
+//           return 1;
+//         }
       
-        // names must be equal
-        return 0;
-      });
-    });
-  });
-  return data;
-}
+//         // names must be equal
+//         return 0;
+//       });
+//     });
+//   });
+//   return data;
+// }
 
 export function getCachedData() {
   return JSON.parse(fs.readFileSync('data.json'));
