@@ -21,6 +21,7 @@
 		"vite": "^6.0.0"
 	},
 	"dependencies": {
-		"jmespath": "^0.16.0"
+		"jmespath": "^0.16.0",
+		"node-xlsx": "^0.24.0"
 	}
 }

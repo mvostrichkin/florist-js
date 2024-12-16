@@ -1,6 +1,7 @@
 import * as fs from 'node:fs';
 import * as dotenv from 'dotenv';
 import * as jmespath from 'jmespath';
+import * as xlsx from 'node-xlsx';
 
 // const floristToken = process.env.FLORIST_TOKEN;
 const floristToken = '0527ed28f0493367d8e4448231a8e209';
@@ -161,7 +162,7 @@ function processFloristResponse(response) {
   response = JSON.stringify(response);
   // console.log(typeof response);
   response = {
-    items: jmespath.search(JSON.parse(response), `items[?salon_name == 'Флорариум'].[name,id,prices.*.[name,price.RUB,composition[*].[name,count,id]]]`)
+    items: jmespath.search(JSON.parse(response), `items[?salon_name == 'Флорариум'].[name,id,prices.*.[name,price.RUB,composition[*].[name,count,id],preview]]`)
       .sort()
   };
 
@@ -243,4 +244,12 @@ export function getBouquetsWithFlower(withFlower) {
   return initialObj;
 }
 
-getBouquetsWithFlower();
+export function getNewDataAndCreateXLSX() {
+  const data = [
+    [1, 2, 3],
+    [true, false, null, 'sheetjs'],
+    ['foo', 'bar', new Date('2014-02-19T14:30Z'), '0.3'],
+    ['baz', null, 'qux'],
+  ];
+  return xlsx.build([{name: 'mySheetName', data: data}]);
+}
