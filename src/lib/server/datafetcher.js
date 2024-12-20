@@ -3,10 +3,14 @@ import * as dotenv from 'dotenv';
 import * as jmespath from 'jmespath';
 import * as xlsx from 'node-xlsx';
 
-// const floristToken = process.env.FLORIST_TOKEN;
-const floristToken = '0527ed28f0493367d8e4448231a8e209';
+const floristToken = '0527ed28f0493367d8e4448231a8e209'; // msk
+// const floristToken = 'abc5ed1c1bc09ac30ab283b55dcbb74b'; // spb
 const floristRequestLimit = 60;
 const floristRequestPages = 5;
+const city = 10; // msk
+// const city = 18; // spb
+const salonName = 'Флорариум'; // msk
+// const salonName = 'Флауви'; // spb
 const stopWords = [
   'БЕЧЕВКА',
   'БУМАГА ЖАТАЯ',
@@ -41,7 +45,8 @@ const stopWords = [
 ];
 
 async function floristSingleRequest(offset) {
-  let url = `https://www.florist.ru/api/bouquet/list?_token=${floristToken}&nocache=0&showPrices=1&showGroups=0&showComposition=1&showHidden=0&showNotVisible=0&city=10&limit=${floristRequestLimit}&offset=${offset}&includePS=0&canDeliverFloristBouquets=1&includeMeta=1&url=/moscow&doctype=catalog&locale=RU`;
+  // let url = `https://www.florist.ru/api/bouquet/list?_token=${floristToken}&nocache=0&showPrices=1&showGroups=0&showComposition=1&showHidden=0&showNotVisible=0&city=${city}&limit=${floristRequestLimit}&offset=${offset}&includePS=0&canDeliverFloristBouquets=1&includeMeta=1&url=/moscow&doctype=catalog&locale=RU`;
+  let url = `https://www.florist.ru/api/bouquet/list?_token=${floristToken}&nocache=0&showPrices=1&showGroups=0&showComposition=1&showHidden=0&showNotVisible=0&city=${city}&limit=${floristRequestLimit}&offset=${offset}&includePS=0&includeMeta=1&url=/sankt-peterburg&doctype=catalog&locale=RU`;
 
   let response = await fetch(url);
 
@@ -162,7 +167,7 @@ function processFloristResponse(response) {
   response = JSON.stringify(response);
   // console.log(typeof response);
   response = {
-    items: jmespath.search(JSON.parse(response), `items[?salon_name == 'Флорариум'].[name,id,prices.*.[name,price.RUB,composition[*].[name,count,id],preview,id]]`)
+    items: jmespath.search(JSON.parse(response), `items[?salon_name == '${salonName}'].[name,id,prices.*.[name,price.RUB,composition[*].[name,count,id],preview,id]]`)
       .sort()
   };
 
@@ -252,4 +257,8 @@ export function getNewDataAndCreateXLSX() {
     ['baz', null, 'qux'],
   ];
   return xlsx.build([{name: 'mySheetName', data: data}]);
+}
+
+export function getCity() {
+  return city;
 }

@@ -6,6 +6,7 @@ export const load = async ({ params }) => {
 	result.lastUpdated = datafetcher.getLastUpdated();
 	result.bouquetsQty = datafetcher.getBouquetsQty();
 	result.compositions = datafetcher.getCompositions().compositions;
+	result.city = datafetcher.getCity();
 
 	return result;
 };
