@@ -3,14 +3,14 @@ import * as dotenv from 'dotenv';
 import * as jmespath from 'jmespath';
 import * as xlsx from 'node-xlsx';
 
-// const floristToken = '0527ed28f0493367d8e4448231a8e209'; // msk
-const floristToken = 'abc5ed1c1bc09ac30ab283b55dcbb74b'; // spb
+const floristToken = '0527ed28f0493367d8e4448231a8e209'; // msk
+// const floristToken = 'abc5ed1c1bc09ac30ab283b55dcbb74b'; // spb
 const floristRequestLimit = 60;
 const floristRequestPages = 5;
-// const city = 10; // msk
-const city = 18; // spb
-// const salonName = 'Флорариум'; // msk
-const salonName = 'Флауви'; // spb
+const city = 10; // msk
+// const city = 18; // spb
+const salonName = 'Флорариум'; // msk
+// const salonName = 'Флауви'; // spb
 const stopWords = [
   'БЕЧЕВКА',
   'БУМАГА ЖАТАЯ',
