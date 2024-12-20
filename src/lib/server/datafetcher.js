@@ -162,7 +162,7 @@ function processFloristResponse(response) {
   response = JSON.stringify(response);
   // console.log(typeof response);
   response = {
-    items: jmespath.search(JSON.parse(response), `items[?salon_name == 'Флорариум'].[name,id,prices.*.[name,price.RUB,composition[*].[name,count,id],preview]]`)
+    items: jmespath.search(JSON.parse(response), `items[?salon_name == 'Флорариум'].[name,id,prices.*.[name,price.RUB,composition[*].[name,count,id],preview,id]]`)
       .sort()
   };
 

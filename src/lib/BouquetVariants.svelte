@@ -5,7 +5,7 @@
 
   function getImgUrl() {
     console.log(variantsData.variant[3]);
-    let resultImgUrl = variantsData.variant[3].replace('180x180','800x800');
+    let resultImgUrl = variantsData.variant[3].replace('180x180','900x900');
     console.log(resultImgUrl);
     return resultImgUrl;
   };
