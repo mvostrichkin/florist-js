@@ -6,6 +6,7 @@ export const load = async ({ params }) => {
 	result.bouquets.flowerID = params.slug;
 	result.lastUpdated = datafetcher.getLastUpdated();
   result.bouquetsQty = datafetcher.getBouquetsQty();
+	result.city = datafetcher.getCity();
 
 	return result;
 };

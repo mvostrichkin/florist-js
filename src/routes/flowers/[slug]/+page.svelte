@@ -10,7 +10,7 @@
     <h1 class="text-3xl font-bold mt-3" style="color:#4c2282">{data.bouquets.flowerName}</h1><h2 class="text-lg">Позиций: <b>{dataLength}</b></h2><br>
     <div class="">
       {#each data.bouquets.items as item}
-        <Bouquet bouquetData={{item: item, id: data.bouquets.flowerID}}></Bouquet>
+        <Bouquet bouquetData={{item: item, id: data.bouquets.flowerID}} city={data.city}></Bouquet>
       {/each}
     </div>
   </div>
